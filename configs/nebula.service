@@ -1,0 +1,16 @@
+[Unit]
+Description=start nebula daemon
+After=network.target
+
+[Service]
+CapabilityBoundingSet=CAP_NET_ADMIN
+AmbientCapabilities=CAP_NET_ADMIN
+User=nebula
+Group=nebula
+Type=simple
+LimitNOFILE=65535
+ExecStart=nebula -config /etc/nebula/node.yml
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

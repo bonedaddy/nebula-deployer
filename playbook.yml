@@ -1,0 +1,44 @@
+---
+    - hosts: all
+      become: true
+      tasks:
+        - name: stop existing running nebula processes if any
+          ignore_errors: yes
+          systemd:
+            state: stopped
+            name: nebula
+        - name: copy nebula install script
+          copy:
+            src: ./scripts/nebula_installer.sh
+            dest: /tmp/nebula_installer.sh
+            mode: 'a+rwx'
+        - name: run nebula install script
+          command: /bin/bash /tmp/nebula_installer.sh
+        - name: copy cert
+          copy:
+            src: ./certs/{{ nebula_cert_name }}
+            dest: /etc/nebula/node.crt
+        - name: copy key
+          copy:
+            src: ./certs/{{ nebula_key_name }}
+            dest: /etc/nebula/node.key
+        - name: copy ca cert
+          copy: 
+            src: ./certs/ca.crt
+            dest: /etc/nebula/ca.crt
+        - name: copy nebula config
+          copy:
+            src: ./certs/{{ nebula_config_name }}
+            dest: /etc/nebula/node.yml
+        - name: copy systemd service
+          copy:
+            src: ./configs/nebula.service
+            dest: /etc/systemd/system/nebula.service
+        - name:  enable and start systemd service
+          systemd:
+            name: nebula
+            state: started
+            enabled: yes
+            daemon_reload: yes
+        - name: cleanup permissions
+          command: chmod -R o-rwx /etc/nebula
