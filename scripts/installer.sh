@@ -56,5 +56,8 @@ sudo usermod --shell /bin/false nebula
 # create config file directory
 sudo mkdir /etc/nebula
 
+# generate the ssh host key nebula admin sshd will use
+cd /etc/nebula && ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
+
 # adjust group ownership of config file directory
 sudo chown -R nebula:nebula /etc/nebula
