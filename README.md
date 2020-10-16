@@ -2,7 +2,7 @@
 
 An ansible playbook that allows deploying and managing [nebula](https://github.com/slackhq/nebula/) infrastructure. The install script is limited to support of armv6, armv7, arm64, and linux amd64 OS, however it can be adapted to support other distributions. You will want to adjust the actual configuration of nebula to your liking, what is included can be used as sensible defaults.
 
-# usage
+# usage (install)
 
 Provision your nebula certificate infrastructure and place the contents inside the `certs` folder. The `certs` folder contains example certs and was generated as follows:
 
@@ -18,5 +18,13 @@ Update `inventory/hosts.yml` with your lighthouse, and regular nebula nodes. Mak
 Run the playbook as follows, which will download and install nebula on supported linux distributions:
 
 ```shell
-$> ansible-playbook playbook.yml --ask-become-pass -f 10
+$> ansible-playbook nebula_install.yml --ask-become-pass -f 10
+```
+
+# usage (config update)
+
+After making changes to nebula configurations, you can run the following playbook to update the config
+
+```shell
+$> ansible-playbook nebula_config_update.yml --ask-become-pass -f 10
 ```

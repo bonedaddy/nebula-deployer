@@ -1,0 +1,12 @@
+---
+    - hosts: all
+      become: true
+      tasks:
+        - name: copy nebula config
+          copy:
+            src: ./configs/{{ nebula_config_name }}
+            dest: /etc/nebula/node.yml
+        - name:  restart nebula
+          systemd:
+            name: nebula
+            state: restarted
