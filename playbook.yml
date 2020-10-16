@@ -28,7 +28,7 @@
             dest: /etc/nebula/ca.crt
         - name: copy nebula config
           copy:
-            src: ./certs/{{ nebula_config_name }}
+            src: ./configs/{{ nebula_config_name }}
             dest: /etc/nebula/node.yml
         - name: copy systemd service
           copy:
